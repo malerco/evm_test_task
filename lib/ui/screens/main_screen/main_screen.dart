@@ -1,5 +1,6 @@
 import 'package:evm_test_task/ui/screens/main_screen/main_screen_view_model.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<MainScreenViewModel>();
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 253, 252, 1),
       body: SafeArea(
@@ -23,13 +25,23 @@ class _MainScreenState extends State<MainScreen> {
 
               _ToggleButtons(),
 
-              _FeelingListWithIcons(),
+              if (model.toggleIndex == 0)...[
+                _FeelingListWithIcons(),
 
-              _StressWidget(),
+                model.selectedFeeling != -1 ? _FeelingListSubmenu() : SizedBox.shrink(),
 
-              _SelfRatingWidget(),
+                _StressWidget(),
 
-              _NotesWidget(),
+                _SelfRatingWidget(),
+
+                _NotesWidget(),
+
+                _SaveButton()
+              ],
+
+              if (model.toggleIndex == 1)...[
+                Image.asset('assets/images/coming_soon.png')
+              ]
             ],
           ),
         ),
@@ -43,13 +55,14 @@ class _TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<MainScreenViewModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox.shrink(),
-          Text('Data', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color.fromRGBO(188, 188, 191, 1)),),
+          Text(model.dateAndTime, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color.fromRGBO(188, 188, 191, 1)),),
           Icon(Icons.calendar_month, size: 24, color: Color.fromRGBO(188, 188, 191, 1),),
         ],
       ),
@@ -67,6 +80,7 @@ class _ToggleButtonsState extends State<_ToggleButtons> {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<MainScreenViewModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 47.0),
       child: Container(
@@ -83,6 +97,7 @@ class _ToggleButtonsState extends State<_ToggleButtons> {
               flex: 3,
               child: GestureDetector(
                 onTap: () {
+                  model.toggleIndex = 0;
                   setState(() {
                     selectedIndex = 0;
                   });
@@ -114,6 +129,7 @@ class _ToggleButtonsState extends State<_ToggleButtons> {
               flex: 2,
               child: GestureDetector(
                 onTap: () {
+                  model.toggleIndex = 1;
                   setState(() {
                     selectedIndex = 1;
                   });
@@ -155,7 +171,7 @@ class _FeelingListWithIcons extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<MainScreenViewModel>();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25),
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -368,7 +384,7 @@ class _StressWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -453,6 +469,93 @@ class _NotesWidget extends StatelessWidget {
     );
   }
 }
+
+class _FeelingListSubmenu extends StatefulWidget {
+  const _FeelingListSubmenu({super.key});
+
+  @override
+  State<_FeelingListSubmenu> createState() => _FeelingListSubmenuState();
+}
+
+class _FeelingListSubmenuState extends State<_FeelingListSubmenu> {
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<MainScreenViewModel>();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      child: Wrap(
+        spacing: 8.0, // spacing between adjacent chips
+        runSpacing: 8.0, // spacing between lines of chips
+        children: List.generate(model.feelingSubmenuNames.length, (index) {
+          return GestureDetector(
+            onTap: () => model.selectedFeelingSubmenu = index,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: model.selectedFeelingSubmenu == index ? Color.fromRGBO(255, 135, 2, 1) : Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromRGBO(182, 161, 192, 0.11),
+                    spreadRadius: 2,
+                    blurRadius: 3,
+                    offset: Offset(0.5, -0.5),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+                child: Text(model.feelingSubmenuNames[index], style: TextStyle(fontSize: 11, fontWeight: FontWeight.w400, color: model.selectedFeelingSubmenu == index ? Colors.white : Colors.black,),),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  const _SaveButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<MainScreenViewModel>();
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+      child: GestureDetector(
+        onTap: () {
+          final snackBar = SnackBar(
+            content: Text('Успешно добавлено'),
+            duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+
+              },
+            ),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+          model.saveButtonPressed();
+        } ,
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 44,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: model.savePossible ? Color.fromRGBO(255, 135, 2, 1) : Color.fromRGBO(242, 242, 242, 1),
+
+          ),
+          child: Center(child: Text('Сохранить', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: model.savePossible ? Colors.white : Color.fromRGBO(188, 188, 191, 1) ),)),
+        ),
+      ),
+    );
+  }
+}
+
+
 
 
 
