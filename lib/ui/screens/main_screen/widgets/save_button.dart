@@ -10,7 +10,7 @@ class SaveButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<MainScreenViewModel>();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
       child: GestureDetector(
         onTap: () {
           final snackBar = SnackBar(
