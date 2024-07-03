@@ -10,6 +10,8 @@ class MainScreenViewModel extends ChangeNotifier{
 
   var _selfRating = -1.0;
 
+  var _notes = '';
+
   List<String> get feelingWithIconAssetsPath => _feelingWithIconAssetsPath.toList();
 
   List<String> get feelingWithIconNames => _feelingWithIconNames.toList();
@@ -20,6 +22,12 @@ class MainScreenViewModel extends ChangeNotifier{
 
   set stressLevel(value) {
     _stressLevel = value;
+  }
+
+  get notes => _notes;
+
+  set notes(value) {
+    _notes = value;
   }
 
   get selfRating => _selfRating;
