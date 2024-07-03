@@ -9,7 +9,7 @@ import 'package:timezone/data/latest.dart' as tz;
 void main() {
   tz.initializeTimeZones();
   initializeDateFormatting('ru_RU', null).then((_) {
-    runApp(MyApp());
+    runApp(const MyApp());
   });
 }
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ChangeNotifierProvider(create: (context) => MainScreenViewModel()..initDateInfo(), child: MainScreen()),
+      home: ChangeNotifierProvider(create: (context) => MainScreenViewModel()..initDateInfo(), child: const MainScreen()),
     );
   }
 }
