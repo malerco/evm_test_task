@@ -6,11 +6,27 @@ class MainScreenViewModel extends ChangeNotifier{
 
   var _selectedFeeling = -1;
 
+  var _stressLevel = -1.0;
+
+  var _selfRating = -1.0;
+
   List<String> get feelingWithIconAssetsPath => _feelingWithIconAssetsPath.toList();
 
   List<String> get feelingWithIconNames => _feelingWithIconNames.toList();
 
   int get selectedFeeling => _selectedFeeling;
+
+  get stressLevel => _stressLevel;
+
+  set stressLevel(value) {
+    _stressLevel = value;
+  }
+
+  get selfRating => _selfRating;
+
+  set selfRating(value) {
+    _selfRating = value;
+  }
 
   void feelingSelected(int index){
     _selectedFeeling = index;
