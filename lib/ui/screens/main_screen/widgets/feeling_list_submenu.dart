@@ -24,7 +24,7 @@ class _FeelingListSubmenuState extends State<FeelingListSubmenu> {
             onTap: () => model.selectedFeelingSubmenu = index,
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(3),
                 color: model.selectedFeelingSubmenu == index ? const Color.fromRGBO(255, 135, 2, 1) : Colors.white,
                 boxShadow: const [
                   BoxShadow(
