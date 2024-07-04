@@ -94,7 +94,7 @@ class _SliderWidgetState extends State<SliderWidget> {
                   ),
 
                   Positioned(
-                      bottom: -5,
+                      bottom: 0,
                       left: 20,
                       right: 20,
                       child: Row(
