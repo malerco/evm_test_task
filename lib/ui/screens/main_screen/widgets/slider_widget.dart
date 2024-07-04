@@ -41,69 +41,79 @@ class _SliderWidgetState extends State<SliderWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 50,
-              child: Stack(
+              height: 60,
+              child: Column(
                 children: [
-                  SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                      trackHeight: 6.0,
-                      thumbShape: _CustomThumbShape(),
-                      overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
-                    ),
-                    child: Slider(
-                      value: _currentValue,
-                      onChanged: (value) {
-                        _touched = true;
-                        switch(widget.type){
-                          case 'stress':
-                            model.stressLevel = value;
-                            break;
+                  SizedBox(
+                    height: 35,
+                    child: Stack(
+                      children: [
+                        SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            trackHeight: 6.0,
+                            thumbShape: _CustomThumbShape(),
+                            overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
+                          ),
+                          child: Slider(
+                            value: _currentValue,
+                            onChanged: (value) {
+                              _touched = true;
+                              switch(widget.type){
+                                case 'stress':
+                                  model.stressLevel = value;
+                                  break;
 
-                          case 'self_rating':
-                            model.selfRating = value;
-                            break;
-                        }
-                        setState(() {
-                          _currentValue = value;
-                        });
-                      },
-                      activeColor: _touched ? const Color.fromRGBO(255, 135, 2, 1) : const Color.fromRGBO(225, 221, 216, 1),
-                      inactiveColor: const Color.fromRGBO(225, 221, 216, 1),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: FractionallySizedBox(
-                        widthFactor: 1.0,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: List.generate(6, (index) {
-                              return Container(
-                                width: 2,
-                                height: 8,
-                                color: const Color.fromRGBO(225, 221, 216, 1),
-                              );
-                            }),
+                                case 'self_rating':
+                                  model.selfRating = value;
+                                  break;
+                              }
+                              setState(() {
+                                _currentValue = value;
+                              });
+                            },
+                            activeColor: _touched ? const Color.fromRGBO(255, 135, 2, 1) : const Color.fromRGBO(225, 221, 216, 1),
+                            inactiveColor: const Color.fromRGBO(225, 221, 216, 1),
                           ),
                         ),
-                      ),
+                        Positioned.fill(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: FractionallySizedBox(
+                              widthFactor: 1.0,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: List.generate(6, (index) {
+                                    return Container(
+                                      width: 2,
+                                      height: 8,
+                                      color: const Color.fromRGBO(225, 221, 216, 1),
+                                    );
+                                  }),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+
+                      ],
                     ),
                   ),
 
-                  Positioned(
-                      bottom: 0,
-                      left: 20,
-                      right: 20,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.leftText, style: const TextStyle(color: Color.fromRGBO(188, 188, 191, 1))),
-                          Text(widget.rightText, style: const TextStyle(color: Color.fromRGBO(188, 188, 191, 1))),
-                        ],
-                      ))
+                  const SizedBox(height: 2,),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.leftText, style: const TextStyle(color: Color.fromRGBO(188, 188, 191, 1))),
+                        Text(widget.rightText, style: const TextStyle(color: Color.fromRGBO(188, 188, 191, 1))),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

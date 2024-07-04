@@ -1,3 +1,4 @@
+import 'package:evm_test_task/ui/screens/calendar_screen/calendar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +18,11 @@ class TitleWidget extends StatelessWidget {
         children: [
           const SizedBox.shrink(),
           Text(model.dateAndTime, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color.fromRGBO(188, 188, 191, 1)),),
-          const Icon(Icons.calendar_month, size: 24, color: Color.fromRGBO(188, 188, 191, 1),),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarScreen(),));
+            },
+              child: const Icon(Icons.calendar_month, size: 24, color: Color.fromRGBO(188, 188, 191, 1),)),
         ],
       ),
     );
