@@ -13,21 +13,23 @@ class SaveButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
       child: GestureDetector(
         onTap: () {
-          final snackBar = SnackBar(
-            content: const Text('Успешно добавлено'),
-            duration: const Duration(seconds: 3),
-            behavior: SnackBarBehavior.floating,
-            action: SnackBarAction(
-              label: 'Ok',
-              onPressed: () {
+          if (model.savePossible) {
+            final snackBar = SnackBar(
+              content: const Text('Успешно добавлено'),
+              duration: const Duration(seconds: 3),
+              behavior: SnackBarBehavior.floating,
+              action: SnackBarAction(
+                label: 'Ok',
+                onPressed: () {
 
-              },
-            ),
-          );
+                },
+              ),
+            );
 
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-          model.saveButtonPressed();
+            model.saveButtonPressed();
+          }
         } ,
         child: Container(
           width: MediaQuery.of(context).size.width,
